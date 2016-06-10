@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<%- include('./header.ejs') %>
+<body>
+<div class="container">
+	<%- include('./navbar.ejs') %>
+	<% if (req.isAuthenticated()) { %>
+		<div class="alert alert-info">
+			<p>Welcome back, <%= req.user.local.username %>!</p>
+		</div>
+		<form action="/" method="post" role="form" autocomplete="off">
+			<div class="form-group">
+				<label for="submission">Write a post:</label>
+				<input type="text" name="submission" class="form-control" maxlength="5" minlength="5">
+			</div>
+			<input type="submit" name="submit" class="form-control btn btn-default">
+		</form><br>
+		<% posts.forEach(function(item, index) { %>
+			<div class="panel panel-default">
+				<div class="panel-body">"<%= posts[index].body %>" — <%= posts[index].author %></div>
+			</div>
+		<% }); %>
+	<% } else { %>
+		<% posts.forEach(function(item, index) { %>
+			<div class="panel panel-default">
+				<div class="panel-body">"<%= posts[index].body %>" — <%= posts[index].author %></div>
+			</div>
+		<% }); %>
+	<% }; %>
+</div>
+</body>
+</html>
