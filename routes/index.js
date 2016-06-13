@@ -21,7 +21,10 @@ module.exports = function(app, passport) {
 		if (submission.trim().length == 5) {
 			var post = new Post({
 				body: submission,
-				author: req.user.local.username,
+				author: {
+					username: req.user.local.username,
+					id: req.user._id
+				},
 				date: new Date
 			});
 			// save the submission to the database
