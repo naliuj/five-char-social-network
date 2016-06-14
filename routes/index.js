@@ -4,15 +4,19 @@ var User = require('../app/models/user');
 module.exports = function(app, passport) {
 
 	app.get('/', function(req, res) {
-		loadPosts(req, function(err, posts) {
-			if (err) console.error(err);
-			res.render('index.ejs', { 
-				req: req,
-				page: 'index',
-				message: req.flash('submitMessage'),
-				posts: posts
+		if (req.isAuthenticated() && (req.user.local.username == null || req.user.local == {})) {
+			res.redirect('/finish_signup');
+		} else {
+			loadPosts(req, function(err, posts) {
+				if (err) console.error(err);
+				res.render('index.ejs', {
+					req: req,
+					page: 'index',
+					message: req.flash('submitMessage'),
+					posts: posts
+				});
 			});
-		});
+		};
 	});
 
 	app.post('/', function(req, res) {

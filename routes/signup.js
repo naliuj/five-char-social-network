@@ -22,9 +22,9 @@ module.exports = function(app, passport) {
 			failureRedirect: '/'
 		}));
 
-	app.get('/finish_signup', isLoggedIn, function(req, res) {
+	app.get('/finish_signup', function(req, res) {
 		if (req.isAuthenticated()) {
-			if (req.user.local != {}) {
+			if (req.user.local != {} && req.user.local.username != null) {
 				res.redirect('/');
 			} else {
 				res.render('finish_signup.ejs', {
@@ -33,10 +33,12 @@ module.exports = function(app, passport) {
 					message: req.flash('username-message')
 				});
 			};
+		} else {
+			res.redirect('/');
 		};
 	});
 
-	app.post('/finish_signup', isLoggedIn, function(req, res) {
+	app.post('/finish_signup', function(req, res) {
 		User.findOne({"local.username": req.body.username}, function(err, doc) {
 			if (err) return console.error(err);
 			if (doc == null) {
@@ -44,13 +46,12 @@ module.exports = function(app, passport) {
 					{$set: {"local.username": req.body.username}}, {new: true},
 					function(err, doc) {
 						if (err) {
-							res.redirect('/');
 							return console.error(err);
 						} else {
 							res.redirect('/');
 						};
 					}
-			);
+				);
 			} else {
 				req.flash('username-message', 'Username is already taken!');
 				res.redirect('/finish_signup');
