@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<%- include('./header.ejs') %>
+<body>
+	<div class="container">
+		<%- include('./navbar.ejs') %>
+		<div class="col-sm-8 col-sm-offset-2">
+			<% if (message.length > 0) { %>
+				<div class="alert alert-danger"><%= message %></div>
+			<% }; %>
+			<h1>One last step...</h3>
+			<hr>
+			<h3>Pick a username to use on yellow:</h3>
+			<form action="/finish_signup" method="post" role="form">
+				<input type="text" name="username" class="form-control" pattern="([A-Za-z0-9_])+" title="Usernames can only contain letters(uppercase and lowercase), numbers, and underscores." required><br>
+				<input type="submit" name="submit" value="Register!" class="form-control btn btn-warning">
+			</form>
+		</div>
+	</div>
+</body>
+</html>

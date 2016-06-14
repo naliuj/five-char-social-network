@@ -1,6 +1,9 @@
 var LocalStrategy = require('passport-local').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 
 var User = require('../app/models/user');
+
+var configAuth = require('./auth');
 
 module.exports = function(passport) {
 
@@ -17,7 +20,7 @@ module.exports = function(passport) {
 	});
 
 	// =========================================================================
-    // ============================= LOCAL SIGNUP ==============================
+    // LOCAL SIGNUP ============================================================
     // =========================================================================
 
     passport.use('local-signup', new LocalStrategy({
@@ -63,7 +66,7 @@ module.exports = function(passport) {
     }));
 
     // =========================================================================
-    // ============================= LOCAL LOGJN ===============================
+    // LOCAL LOGJN =============================================================
     // =========================================================================
 
     passport.use('local-login', new LocalStrategy({
@@ -88,6 +91,51 @@ module.exports = function(passport) {
     		// if the user is all good then return it
     		return done(null, user);
     	});
+
+    }));
+
+    // =========================================================================
+    // TWITTER SIGNUP ==========================================================
+    // =========================================================================
+
+    passport.use(new TwitterStrategy({
+        consumerKey: configAuth.twitterAuth.consumerKey,
+        consumerSecret: configAuth.twitterAuth.consumerSecret,
+        callbackURL: configAuth.twitterAuth.callbackURL
+    },
+    function(token, tokenSecret, profile, done) {
+
+        process.nextTick(function() {
+
+            // check the database to see if the user already exists
+            User.findOne({ 'twitter.id': profile.id }, function(err, user) {
+
+                // return error
+                if (err) return done(err);
+
+                // check if the user exists
+                if (user) {
+                    return done(null, user);
+                } else {
+                    var newUser = new User();
+
+                    // set all the user data we need
+                    newUser.twitter.id = profile.id;
+                    newUser.twitter.token = token;
+                    newUser.twitter.username = profile.username;
+                    newUser.twitter.displayName = profile.displayName;
+
+                    // save the user to the database
+                    newUser.save(function(err) {
+                        if (err) throw err;
+                        return done(null, newUser);
+                    });
+
+                };
+
+            });
+
+        });
 
     }));
 

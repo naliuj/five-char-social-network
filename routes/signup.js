@@ -1,4 +1,6 @@
 var notLoggedIn = require('./middleware/notLoggedIn');
+var isLoggedIn = require('./middleware/isLoggedIn');
+var User = require('../app/models/user');
 
 module.exports = function(app, passport) {
 
@@ -11,5 +13,49 @@ module.exports = function(app, passport) {
 		failureRedirect: '/signup',
 		failureFlash: true
 	}));
+
+	app.get('/auth/twitter', passport.authenticate('twitter'));
+
+	app.get('/auth/twitter/callback',
+		passport.authenticate('twitter', {
+			successRedirect: '/finish_signup',
+			failureRedirect: '/'
+		}));
+
+	app.get('/finish_signup', isLoggedIn, function(req, res) {
+		if (req.isAuthenticated()) {
+			if (req.user.local != {}) {
+				res.redirect('/');
+			} else {
+				res.render('finish_signup.ejs', {
+					page: "finish-signup",
+					req: req,
+					message: req.flash('username-message')
+				});
+			};
+		};
+	});
+
+	app.post('/finish_signup', isLoggedIn, function(req, res) {
+		User.findOne({"local.username": req.body.username}, function(err, doc) {
+			if (err) return console.error(err);
+			if (doc == null) {
+				User.findOneAndUpdate({"twitter.id" : req.user.twitter.id},
+					{$set: {"local.username": req.body.username}}, {new: true},
+					function(err, doc) {
+						if (err) {
+							res.redirect('/');
+							return console.error(err);
+						} else {
+							res.redirect('/');
+						};
+					}
+			);
+			} else {
+				req.flash('username-message', 'Username is already taken!');
+				res.redirect('/finish_signup');
+			};
+		});
+	});
 
 };
