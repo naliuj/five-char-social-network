@@ -37,6 +37,7 @@ require('./routes/login')(app, passport);
 require('./routes/profile')(app, passport);
 require('./routes/signup')(app, passport);
 require('./routes/logout')(app, passport);
+require('./routes/settings')(app, passport);
 
 // launch
 app.listen(port);
