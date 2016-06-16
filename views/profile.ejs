@@ -4,14 +4,25 @@
 <div class="container">
     <%- include('./navbar.ejs') %>
 
-    <h1><%= username %></h1>
-
     <% if (posts.length > 0) { %>
-        <% var body = ''; %>
-        <% posts.forEach(function(item, index) { %>
-            <% body += posts[index].body + ' ' %>
-        <% }); %>
-        <p><%= body %></p>
+
+        <h1><%= username %></h1>
+
+        <% if (posts.length > 0) { %>
+            <% var body = ''; %>
+            <% posts.forEach(function(item, index) { %>
+                <% body += posts[index].body + ' ' %>
+            <% }); %>
+            <p><%= body %></p>
+        <% }; %>
+
+    <% } else { %>
+
+        <div class="jumbotron">
+            <h1>Error: User not found.</h1>
+            <p> User "<%= req.params.username %>" not found.</p>
+        </div>
+
     <% }; %>
 
 </div>
