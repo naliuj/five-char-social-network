@@ -51,6 +51,7 @@ module.exports = function(passport) {
     				// set the user's local credentials
     				newUser.local.username = username;
     				newUser.local.password = newUser.generateHash(password);
+					newUser.role = 'user';
 
     				// save the user
     				newUser.save(function(err) {
@@ -124,6 +125,7 @@ module.exports = function(passport) {
                     newUser.twitter.token = token;
                     newUser.twitter.username = profile.username;
                     newUser.twitter.displayName = profile.displayName;
+					newUser.role = 'user';
 
                     // save the user to the database
                     newUser.save(function(err) {

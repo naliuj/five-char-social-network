@@ -29,7 +29,9 @@ var userSchema = new mongoose.Schema({
 		likes: [String],
 		following: [String],
 		followers: [String]
-	}
+	},
+
+	role: String
 
 });
 
