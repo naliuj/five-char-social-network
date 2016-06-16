@@ -12,13 +12,14 @@
 			<div class="alert alert-danger"><%= message %></div>
 		<% }; %>
 
-		<h5>Usernames and passwords must be between 6 and 20 characters.</h5>
+		<h5>Usernames must be between 4 and 20 characters.</h5>
+		<h5>Passwords must be between 6 and 20 characters.</h5>
 
 		<!-- SIGNUP FORM !-->
 		<form action="/signup" method="post">
 			<div class="form-group">
 				<label for="username">Username</label>
-				<input type="text" class="form-control" name="username" pattern="([A-Za-z0-9_])+" minlength="6" maxlength="20" title="Usernames can only contain letters(uppercase and lowercase), numbers, and underscores." required>
+				<input type="text" class="form-control" name="username" pattern="([A-Za-z0-9_])+" minlength="4" maxlength="20" title="Usernames can only contain letters(uppercase and lowercase), numbers, and underscores." required>
 			</div>
 			<div class="form-group">
 				<label for="password">Password</label>
