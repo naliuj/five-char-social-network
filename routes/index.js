@@ -1,6 +1,7 @@
 var Post = require('../app/models/post');
 var User = require('../app/models/user');
 var isLoggedIn = require('./middleware/isLoggedIn');
+var isAdmin = require('./middleware/isAdmin');
 
 module.exports = function(app, passport) {
 
@@ -35,16 +36,18 @@ module.exports = function(app, passport) {
 			// save the submission to the database
 			post.save(function(err) {
 				if (err) {
-					console.log("Something went wrong trying to save post.");
+					req.flash('submitMessage',
+						'Something went wrong trying to save your post.');
+					console.error(err);
 				} else {
-					console.log("Saved post:", submission);
+					req.flash('submitMessage', 'Your post has been saved!');
 				};
 			});
 		};
 		res.redirect('/');
 	});
 
-	app.get('/userreq', function(req, res) {
+	app.get('/userreq', isAdmin, function(req, res) {
 		res.send(req.user);
 	});
 

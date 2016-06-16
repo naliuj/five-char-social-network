@@ -3,18 +3,20 @@ var Post = require('../app/models/post');
 var User = require('../app/models/user');
 
 module.exports = function(app, post) {
+
 	app.get('/user/:username', function(req, res)  {
 		var username = req.params.username;
 		var user_exists;
 		User.findOne({ 'local.username': username }, function(err, user) {
-			if (err) throw err;
+			if (err) return console.error(err);
 			if (user != null) {
 				Post.find({ 'author.username': username }, function(err, posts) {
+					if (err) console.error(err);
 					res.render('profile.ejs', {
 						req: req,
 						page: 'profile',
 						posts: posts,
-						username: username,
+						user: user,
 						exists: true
 					});
 				});
@@ -23,7 +25,7 @@ module.exports = function(app, post) {
 					req: req,
 					page: 'profile',
 					posts: null,
-					username: username,
+					user: user,
 					exists: false
 				});
 			};

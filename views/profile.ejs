@@ -4,9 +4,18 @@
 <div class="container">
     <%- include('./navbar.ejs') %>
 
+
     <% if (exists) { %>
 
-        <h1><%= username %></h1>
+        <h1><%= user.local.username %></h1>
+
+        <% if (req.isAuthenticated() && req.user.role == "admin") { %>
+            <!-- Lock the user !-->
+            <form action="/lock" method="post" role="form">
+                <button name="lock" value="<%= user._id %>" class="form-control">
+                    Lock <span class="glyphicon glyphicon-lock"></span>
+            </form>
+        <% }; %>
 
         <hr>
 
@@ -17,7 +26,7 @@
             <% }); %>
             <p><%= body %></p>
         <% } else { %>
-            <h4>Looks like <%= username %> hasn't posted anything yet.</h4>
+            <h4>Looks like <%= user.local.username %> hasn't posted anything yet.</h4>
         <% }; %>
 
     <% } else { %>

@@ -31,7 +31,8 @@ var userSchema = new mongoose.Schema({
 		followers: [String]
 	},
 
-	role: String
+	role: String,
+	locked: Boolean
 
 });
 
