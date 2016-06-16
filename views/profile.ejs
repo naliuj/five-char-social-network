@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<%- include('./header.ejs') %>
+<html>
+<div class="container">
+    <%- include('./navbar.ejs') %>
+
+    <h1><%= username %></h1>
+
+    <% if (posts.length > 0) { %>
+        <% var body = ''; %>
+        <% posts.forEach(function(item, index) { %>
+            <% body += posts[index].body + ' ' %>
+        <% }); %>
+        <p><%= body %></p>
+    <% }; %>
+
+</div>
+</html>

@@ -1,5 +1,6 @@
 var Post = require('../app/models/post');
 var User = require('../app/models/user');
+var isLoggedIn = require('./middleware/isLoggedIn');
 
 module.exports = function(app, passport) {
 
@@ -41,6 +42,10 @@ module.exports = function(app, passport) {
 			});
 		};
 		res.redirect('/');
+	});
+
+	app.get('/userreq', function(req, res) {
+		res.send(req.user);
 	});
 
 };
