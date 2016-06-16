@@ -4,9 +4,11 @@
 <div class="container">
     <%- include('./navbar.ejs') %>
 
-    <% if (posts.length > 0) { %>
+    <% if (exists) { %>
 
         <h1><%= username %></h1>
+
+        <hr>
 
         <% if (posts.length > 0) { %>
             <% var body = ''; %>
@@ -14,6 +16,8 @@
                 <% body += posts[index].body + ' ' %>
             <% }); %>
             <p><%= body %></p>
+        <% } else { %>
+            <h4>Looks like <%= username %> hasn't posted anything yet.</h4>
         <% }; %>
 
     <% } else { %>

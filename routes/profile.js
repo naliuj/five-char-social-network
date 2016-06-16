@@ -4,15 +4,27 @@ var User = require('../app/models/user');
 
 module.exports = function(app, post) {
 	app.get('/user/:username', function(req, res)  {
-		Post.find({ 'author.username': req.params.username}, function(err, posts) {
-			if (err) {
-				throw err;
+		var username = req.params.username;
+		var user_exists;
+		User.findOne({ 'local.username': username }, function(err, user) {
+			if (err) throw err;
+			if (user != null) {
+				Post.find({ 'author.username': username }, function(err, posts) {
+					res.render('profile.ejs', {
+						req: req,
+						page: 'profile',
+						posts: posts,
+						username: username,
+						exists: true
+					});
+				});
 			} else {
 				res.render('profile.ejs', {
 					req: req,
 					page: 'profile',
-					posts: posts,
-					username: req.params.username
+					posts: null,
+					username: username,
+					exists: false
 				});
 			};
 		});
