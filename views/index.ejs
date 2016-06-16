@@ -17,13 +17,23 @@
 		</form><br>
 		<% posts.forEach(function(item, index) { %>
 			<div class="panel panel-default">
-				<div class="panel-body">"<%= posts[index].body %>" — <%= posts[index].author.username %></div>
+				<div class="panel-body">
+					"<%= posts[index].body %>" —
+					<a href="/user/<%= posts[index].author.username %>">
+						<%= posts[index].author.username %>
+					</a>
+				</div>
 			</div>
 		<% }); %>
 	<% } else { %>
 		<% posts.forEach(function(item, index) { %>
 			<div class="panel panel-default">
-				<div class="panel-body">"<%= posts[index].body %>" — <%= posts[index].author.username %></div>
+				<div class="panel-body">
+					"<%= posts[index].body %>" —
+					<a href="/user/<%= posts[index].author.username %>">
+						<%= posts[index].author.username %>
+					</a>
+				</div>
 			</div>
 		<% }); %>
 	<% }; %>
