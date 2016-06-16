@@ -11,9 +11,16 @@
 		<form action="/" method="post" role="form" autocomplete="off">
 			<div class="form-group">
 				<label for="submission">Write a post:</label>
-				<input type="text" name="submission" class="form-control" maxlength="5" minlength="5">
+				<% if (!req.user.locked) { %>
+					<input type="text" name="submission" class="form-control"
+						maxlength="5" minlength="5">
+				<% } else { %>
+					<input type="text" placeholder="Your account is locked."
+						class="form-control" disabled>
+				<% }; %>
 			</div>
-			<input type="submit" name="submit" class="form-control btn btn-default">
+			<input type="submit" name="submit" class="form-control btn btn-default"
+				disabled="<%= req.user.locked %>">
 		</form><br>
 		<% posts.forEach(function(item, index) { %>
 			<div class="panel panel-default">
