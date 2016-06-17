@@ -46,11 +46,6 @@ module.exports = function(app, passport) {
 		};
 		res.redirect('/');
 	});
-
-	app.get('/userreq', isAdmin, function(req, res) {
-		res.send(req.user);
-	});
-
 };
 
 function loadPosts(req, callback) {

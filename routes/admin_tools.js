@@ -1,4 +1,5 @@
 var isAdmin = require('./middleware/isAdmin');
+var isDev = require('./middleware/isDev');
 var User = require('../app/models/user');
 
 module.exports = function(app, passport) {
@@ -32,5 +33,11 @@ module.exports = function(app, passport) {
         });
         res.redirect('back');
     });
+
+    // Route for displaying the user request info
+    app.get('/userreq', isDev, function(req, res) {
+        res.send(req.user);
+    });
+
 
 };

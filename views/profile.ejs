@@ -10,7 +10,7 @@
         <h1><%= user.local.username %></h1>
 
         <div class="row">
-            <% if (req.isAuthenticated() && req.user.role == "admin") { %>
+            <% if (req.isAuthenticated() && req.user.role == "admin" || req.user.role == "dev") { %>
                 <!-- Verify whether the user is locked or not !-->
                 <% if (!user.locked) { %>
                     <!-- Lock the user !-->

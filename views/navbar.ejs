@@ -5,6 +5,7 @@
 		</div>
 		<ul class="nav navbar-nav">
 			<li class=<% if (page == 'index') { %>"active"<% } else { %>""<% }; %>><a href="/">Feed</a></li>
+			<li class=<% if (page == 'users') { %>"active"<% } else { %>""<% }; %>><a href="/users">Users</a></li>
 			<% if (req.isAuthenticated()) { %>
 				<li><a href="/users/<%= req.user.local.username %>">My Profile</a></li>
 			<% }; %>
@@ -19,10 +20,10 @@
 			</ul>
 		<% } else { %>
 			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/login">Login/Register <span class="glyphicon glyphicon-log-in"></span></a></li>
 				<li><a href="/auth/twitter">
 					<span class="fa fa-twitter"></span>
 				</a></li>
-				<li><a href="/login">Login/Register <span class="glyphicon glyphicon-log-in"></span></a></li>
 			</ul>
 		<% }; %>
 	</div>
