@@ -9,13 +9,30 @@
 
         <h1><%= user.local.username %></h1>
 
-        <% if (req.isAuthenticated() && req.user.role == "admin") { %>
-            <!-- Lock the user !-->
-            <form action="/lock" method="post" role="form">
-                <button name="lock" value="<%= user._id %>" class="form-control">
-                    Lock <span class="glyphicon glyphicon-lock"></span>
-            </form>
-        <% }; %>
+        <div class="row">
+            <% if (req.isAuthenticated() && req.user.role == "admin") { %>
+                <!-- Verify whether the user is locked or not !-->
+                <% if (!user.locked) { %>
+                    <!-- Lock the user !-->
+                    <div class="col-sm-3">
+                        <form action="/lock" method="post" role="form">
+                            <button name="lock" value="<%= user._id %>"
+                                class="form-control btn btn-danger">
+                                Lock <span class="glyphicon glyphicon-lock"></span>
+                        </form>
+                    </div>
+                <% } else { %>
+                    <!-- Unlock the user !-->
+                    <div class="col-sm-3">
+                        <form action="/unlock" method="post" role="form">
+                            <button name="unlock" value="<%= user._id %>"
+                                class="form-control btn btn-success">
+                                Unlock <span class="glyphicon glyphicon-lock"></span>
+                        </form>
+                    </div>
+                <% }; %>
+            <% }; %>
+        </div>
 
         <hr>
 
