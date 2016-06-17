@@ -9,18 +9,20 @@
 			<p>Welcome back, <%= req.user.local.username %>!</p>
 		</div>
 		<form action="/" method="post" role="form" autocomplete="off">
-			<div class="form-group">
-				<label for="submission">Write a post:</label>
+			<label for="submission">Write a post:</label>
 				<% if (!req.user.locked) { %>
-					<input type="text" name="submission" class="form-control"
-						maxlength="5" minlength="5">
+					<div class="form-group">
+						<input type="text" name="submission" class="form-control"
+							maxlength="5" minlength="5">
+					</div>
+					<input type="submit" name="submit" class="form-control btn btn-default">
 				<% } else { %>
-					<input type="text" placeholder="Your account is locked."
-						class="form-control" disabled>
+					<div class="form-group">
+						<input type="text" placeholder="Your account is locked."
+							class="form-control" disabled>
+					</div>
+					<input type="submit" name="submit" class="form-control btn btn-default" disabled>
 				<% }; %>
-			</div>
-			<input type="submit" name="submit" class="form-control btn btn-default"
-				disabled="<%= req.user.locked %>">
 		</form><br>
 		<% posts.forEach(function(item, index) { %>
 			<div class="panel panel-default">
