@@ -1,6 +1,7 @@
 var isAdmin = require('./middleware/isAdmin');
 var isDev = require('./middleware/isDev');
 var User = require('../app/models/user');
+var Post = require('../app/models/post')
 
 module.exports = function(app, passport) {
 
@@ -32,6 +33,25 @@ module.exports = function(app, passport) {
             });
         });
         res.redirect('back');
+    });
+
+    app.post('/delete_user', isAdmin, function(req, res) {
+        // Delete the user's account
+        User.remove({ _id: req.body.delete }, function(err) {
+            if (err) {
+                req.flash('deleteMessage',
+                'Something went wrong trying to delete the account.');
+                res.redirect('back');
+            } else {
+                // Delete all the posts associated with the user's account
+                Post.remove({ 'author.id': req.body.delete }, function(err) {
+                    if (err) {
+                        console.error(err);
+                    };
+                    res.redirect('/');
+                });
+            };
+        });
     });
 
     // Route for displaying the user request info

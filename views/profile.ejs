@@ -4,30 +4,49 @@
 <div class="container">
     <%- include('./navbar.ejs') %>
 
+    <% if (message > 0) { %>
+        <div class="alert alert-danger">
+            <%= message %>
+        </div>
+    <% }; %>
+
 
     <% if (exists) { %>
 
         <h1><%= user.local.username %></h1>
 
         <div class="row">
-            <% if (req.isAuthenticated() && req.user.role == "admin" || req.user.role == "dev") { %>
-                <!-- Verify whether the user is locked or not !-->
-                <% if (!user.locked) { %>
-                    <!-- Lock the user !-->
+            <% if (req.isAuthenticated()) { %>
+                <% if (req.user.role == "admin" || req.user.role == "dev") { %>
+                    <!-- Verify whether the user is locked or not !-->
+                    <% if (!user.locked) { %>
+                        <!-- Lock the user !-->
+                        <div class="col-sm-3">
+                            <form action="/lock" method="post" role="form">
+                                <button name="lock" value="<%= user._id %>"
+                                    class="form-control btn btn-danger">
+                                    Lock <span class="glyphicon glyphicon-lock"></span>
+                            </form>
+                        </div>
+                    <% } else { %>
+                        <!-- Unlock the user !-->
+                        <div class="col-sm-3">
+                            <form action="/unlock" method="post" role="form">
+                                <button name="unlock" value="<%= user._id %>"
+                                    class="form-control btn btn-success">
+                                    Unlock <span class="glyphicon glyphicon-lock">
+                                    </span></button>
+                            </form>
+                        </div>
+                    <% }; %>
+                    <!-- Delete the user !-->
                     <div class="col-sm-3">
-                        <form action="/lock" method="post" role="form">
-                            <button name="lock" value="<%= user._id %>"
-                                class="form-control btn btn-danger">
-                                Lock <span class="glyphicon glyphicon-lock"></span>
-                        </form>
-                    </div>
-                <% } else { %>
-                    <!-- Unlock the user !-->
-                    <div class="col-sm-3">
-                        <form action="/unlock" method="post" role="form">
-                            <button name="unlock" value="<%= user._id %>"
-                                class="form-control btn btn-success">
-                                Unlock <span class="glyphicon glyphicon-lock"></span>
+                        <form action="/delete_user" method="post" role="form">
+                            <button name="delete" value="<%= user._id %>"
+                                class="form-control btn btn-danger"
+                                onclick="confirmDelete(this.form)">
+                                Delete <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </form>
                     </div>
                 <% }; %>
@@ -57,3 +76,11 @@
 
 </div>
 </html>
+<script>
+    // Confirm deletion of user
+    function confirmDelete(form) {
+        if (confirm("Are you sure you want to delete this account?")) {
+            form.submit();
+        };
+    }
+</script>

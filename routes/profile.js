@@ -17,7 +17,8 @@ module.exports = function(app, post) {
 						page: 'profile',
 						posts: posts,
 						user: user,
-						exists: true
+						exists: true,
+						message: req.flash('deleteMessage')
 					});
 				});
 			} else {
@@ -26,7 +27,8 @@ module.exports = function(app, post) {
 					page: 'profile',
 					posts: null,
 					user: user,
-					exists: false
+					exists: false,
+					message: req.flash('deleteMessage')
 				});
 			};
 		});
