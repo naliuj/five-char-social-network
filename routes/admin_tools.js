@@ -5,7 +5,9 @@ var Post = require('../app/models/post')
 
 module.exports = function(app, passport) {
 
-    // Route for locking users
+    // =========================================================================
+    // LOCK A USER =============================================================
+    // =========================================================================
     app.post('/lock', isAdmin, function(req, res) {
         // Find the user
         User.findById(req.body.lock, function(err, user) {
@@ -20,7 +22,9 @@ module.exports = function(app, passport) {
         res.redirect('back');
     });
 
-    // Route for unlocking users
+    // =========================================================================
+    // UNLOCK A USER ===========================================================
+    // =========================================================================
     app.post('/unlock', isAdmin, function(req, res) {
         // Find the user
         User.findById(req.body.unlock, function(err, user) {
@@ -35,7 +39,10 @@ module.exports = function(app, passport) {
         res.redirect('back');
     });
 
-    app.post('/delete_user', isAdmin, function(req, res) {
+    // =========================================================================
+    // DELETE A USER AND THEIR POSTS ===========================================
+    // =========================================================================
+    app.post('/delete_user', function(req, res) {
         // Delete the user's account
         User.remove({ _id: req.body.delete }, function(err) {
             if (err) {
@@ -54,7 +61,21 @@ module.exports = function(app, passport) {
         });
     });
 
-    // Route for displaying the user request info
+    // =========================================================================
+    // DELETE A SINGLE POST ====================================================
+    // =========================================================================
+    app.post('/delete_post', isAdmin, function(req, res) {
+        Post.remove({ _id: req.body.delete }, function(err) {
+            if (err) {
+                console.error(err);
+            };
+            res.redirect('back');
+        });
+    });
+
+    // =========================================================================
+    // RENDER USER REQUEST JSON ================================================
+    // =========================================================================
     app.get('/userreq', isDev, function(req, res) {
         res.send(req.user);
     });

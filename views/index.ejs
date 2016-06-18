@@ -27,10 +27,23 @@
 		<% posts.forEach(function(item, index) { %>
 			<div class="panel panel-default">
 				<div class="panel-body">
-					"<%= posts[index].body %>" —
-					<a href="/user/<%= posts[index].author.username %>">
-						<%= posts[index].author.username %>
-					</a>
+					<div class="col-sm-11">
+						"<%= posts[index].body %>" —
+						<a href="/user/<%= posts[index].author.username %>">
+							<%= posts[index].author.username %>
+						</a>
+					</div>
+					<% if (req.user.role == "admin" || req.user.role == "dev") { %>
+						<div class="col-sm-1">
+							<form action="/delete_post" method="post" role="form" id="deleteForm">
+								<input type="hidden" name="delete" value="<%= posts[index]._id %>">
+								<button class="btn btn-link btn-xs"
+									onclick="confirmDelete(this.form)">
+									<span class="glyphicon glyphicon-trash"></span>
+								</button>
+							</form>
+						</div>
+					<% }; %>
 				</div>
 			</div>
 		<% }); %>
@@ -49,3 +62,15 @@
 </div>
 </body>
 </html>
+<script>
+	function confirmDelete(form) {
+		if (confirm("Are you sure you want to remove this post?")) {
+			form.submit();
+		};
+	}
+</script>
+<style>
+	.btn-xs {
+		color: black;
+	}
+</style>
