@@ -21,6 +21,7 @@ require('./config/passport')(passport);
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser());
+app.use(express.static('public'));
 
 // set up ejs for templating
 app.set('view engine', 'ejs');
