@@ -5,15 +5,21 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<% if (page == 'profile') { %>
+		<% var pre = '../' %>
+	<% } else { %>
+		<% var pre = '' %>
+	<% }; %>
+
 	<!-- JQuery !-->
-	<script src="jquery-3.0.0.min.js"></script>
+	<script src="<%= pre %>jquery-3.0.0.min.js"></script>
 
 	<!-- Bootstrap !-->
-	<link rel="stylesheet" href= "bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
-	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="<%= pre %>bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<%= pre %>bootstrap/css/bootstrap-theme.min.css">
+	<script src="<%= pre %>bootstrap/js/bootstrap.min.js"></script>
 
 	<!-- Font Awesome !-->
-	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%= pre %>font-awesome/css/font-awesome.min.css">
 
 </head>
